@@ -8,6 +8,8 @@ output:
 ---
 
 ## Setup
+In this project, the proportion of the men and women who have you been unemployed and looking for work for as long as a month.
+The project was completed as a part of **Duke University’s ‘Inferential Statistics’** online course on **Coursera** platform.
 
 ### Load packages
 
@@ -23,15 +25,22 @@ Make sure your data and R Markdown files are in the same directory. When loaded
 your data file will be called `gss`. Delete this note when before you submit 
 your work. 
 
+
 ```{r load-data}
 load("gss.Rdata")
 ```
 
 
-
 * * *
 
 ## Part 1: Data
+According to the data in the [General Social Survey](https://gss.norc.org/Get-Documentation) (GSS) is collected from an independently drawn sample of English-speaking persons (and Spanish-speaking persons, beginning from 2006) 18 years of age or above, living in non-institutional arrangements within the United States. Full probability sampling was employed in all surveys beginning from 1977.
+
+The data is generalizable as it collected randomly. And it was a observational 
+study and not experimental so we cannot use it to determine causality between variables in the data.
+```{r load}
+
+```
 
 
 * * *
