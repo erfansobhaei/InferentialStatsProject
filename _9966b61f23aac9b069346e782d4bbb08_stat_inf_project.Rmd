@@ -21,10 +21,6 @@ library(statsr)
 
 ### Load data
 
-Make sure your data and R Markdown files are in the same directory. When loaded
-your data file will be called `gss`. Delete this note when before you submit 
-your work. 
-
 
 ```{r load-data}
 load("gss.Rdata")
@@ -73,6 +69,7 @@ ggplot(data = dataset, aes(x = unemp)) +
   geom_bar() + ggtitle("Unemployment up to one month between 2000 and 2010") + 
   xlab("Unemploymnet status")
 ```
+
 And we can see the situation of data according to both *unemp* and *sex*:
 ```{r}
 dataset_tab <- table(dataset)
@@ -106,6 +103,40 @@ to find out the equality of unemployment in the whole population.
 
 ## Part 4: Inference
 
-NOTE: Insert code chunks as needed by clicking on the "Insert a new code chunk" 
-button (green button with orange arrow) above. Make sure that your code is visible
-in the project you submit. Delete this note when before you submit your work.
+### Hypothesis
+The null hypothesis for our question is,"There is no differences between men and women unemployed proportion, up to one month between the year 2000 to 2010".
+
+The alternative hypothesis is, "A larger proportion of men than women have been unemployed up to one month from the year 2000 to 2010".
+
+### Conditions
+There are two conditions for comparing two proportions:
+
+1. Independence:
+
+    + within groups: the sample is randomly selected and the size of sample is definitly less than 10% of whole populaton.
+
+    + between groups: as the data sample is random, men and women are independent of each other and non-paired.
+    
+2. Sample size/skew: all successes and failures must be equal or greater than 10:
+
+    + Men: successes: 230>10 and failures: 364>10 
+    
+    + Women: successes: 290 > 10 and failures: 489 >10 
+    
+We can assume that the sampling distribution of the difference between two propotroin is nearly normal.
+
+### Methods
+
+We’ll examine the difference in proportions of men and women unemployment proportion by:
+
+Calculating the p-value for the hypotheses that a higher proportion of unemployed men, given our sample. Then deciding if the p-value is small or large enough to reject, or not reject the null hypotheses.
+
+Checking a 95% confidence interval for the difference in the proportions, and seeing if it contains 0 i.e. there is no difference.
+
+### P-value
+Following code will calculate the p-value for our test:
+```{r}
+inference(data = dataset, x=sex, y=unemp, statistic = "proportion", type = "ht",
+          method = "theoretical", null = 0, alternative = "greater", success = "Yes")
+```
+
