@@ -84,8 +84,12 @@ But according to the following numbers the proportion of unemployed men is more 
 ```{r}
 men_proportion <- 100 * dataset_tab[1] / (dataset_tab[1] + dataset_tab[3])
 women_proportion <- 100 * dataset_tab[2] / (dataset_tab[2] + dataset_tab[4])
-s <- c(men_proportion, women_proportion)
-s
+s.prportion <- c(men_proportion, women_proportion)
+labels <- c("Male", "Female")
+proportions <- c(men_proportion, women_proportion)
+tabs <- data.frame(sex=labels,
+                      properion=proportions)
+tabs
 ```
 Unemployment proportion in this sample among the men is 38.72% while among the women is roughly 37.23%.
 
