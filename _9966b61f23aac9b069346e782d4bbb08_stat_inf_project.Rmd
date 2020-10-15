@@ -9,7 +9,7 @@ output:
 
 ## Setup
 In this project, the proportion of the men and women who have you been unemployed and looking for work for as long as a month.
-The project was completed as a part of **Duke University’s ‘Inferential Statistics’** online course on **Coursera** platform.
+The project was completed as a part of **Duke University’s ‘Inferential Statistics’** online course on the **Coursera** platform.
 
 ### Load packages
 
@@ -30,31 +30,31 @@ load("gss.Rdata")
 * * *
 
 ## Part 1: Data
-According to the data in the [General Social Survey](https://gss.norc.org/Get-Documentation) (GSS) is collected from an independently drawn sample of English-speaking persons (and Spanish-speaking persons, beginning from 2006) 18 years of age or above, living in non-institutional arrangements within the United States. Full probability sampling was employed in all surveys beginning from 1977.
+According to the data in the [General Social Survey](https://gss.norc.org/Get-Documentation) (GSS) is collected from an independently drawn sample of English-speaking persons 18 years of age or above, living in non-institutional arrangements within the United States. Full probability sampling was employed in all surveys beginning in 1977.
 
 Note that the data sample is generalizable as it collected randomly. And it was an observational 
-study and not experimental so we cannot use it to determine causality between variables in the data. 
+study and not experimental, so we cannot use it to determine causality between variables in the data. 
 
 * * *
 
 ## Part 2: Research question
-From the year 2000 to 2010, were men, of 18 years or above, more likely to have been unemployed and looking for work for as long as a month more than women?
+In the year 2010, were men, of 18 years or above, more likely to have been unemployed and looking for work for as long as a month in the past 10 years, more than women?
 
 
 The importance of unemployment is undeniable. Consequences may include homelessness,
-crimes, families breakdown, etc. so if we know the chance of men and women for being unemployment,
+crimes, families breakdown, etc. so if we analyze the chance of difference between men and women for being unemployment,
 the companies can arrange job positions more rationally related to employees' gender.
 
 * * *
 
 ## Part 3: Exploratory data analysis
-The GSS data will be filtered based on year which should be 2010 and ages equal
+The GSS data will be filtered based on the year which should be 2010 and ages equal
 or greater than 18, also we will not select respondents with NA values for *unemp* field because they are not useful for purpose of this project.
   
-* **unemp**: At any time during the last ten years, have respondent been unemployed and looking for work for as long as a month?
+* **unemp**: At any time during the last ten years, have respondents been unemployed and looking for work for as long as a month?
 * **sex**: Respondent's sex
 
-The data can be seen in the output of following code:
+The data can be seen in the output of the following code:
 ```{r data}
 dataset <- gss %>%
   filter(!is.na(unemp), year==2010, age>=18) %>%
@@ -62,8 +62,8 @@ dataset <- gss %>%
 
 str(dataset)
 ```
-As we can see, *unemp* has a two levels including Yes and No values, in the next code snippet,
-the figure indicate the data:
+As we can see, *unemp* has two levels including Yes and No values. In the next code snippet,
+the figure indicates the data:
 ```{r}
 ggplot(data = dataset, aes(x = unemp)) + 
   geom_bar() + ggtitle("Unemployment up to one month between 2000 and 2010") + 
@@ -75,9 +75,9 @@ And we can see the situation of data according to both *unemp* and *sex*:
 dataset_tab <- table(dataset)
 dataset_tab
 ```
-It seems our female respondents are more than male ones in both group, either
-unemployment up to one month in past 10 years or not.
-But according to the following numbers the proportion of unemployed men is more than women.
+It seems our female respondents are more than male ones in both groups, either
+unemployment up to one month in the past 10 years or not.
+But according to the following numbers, the proportion of unemployed men is more than women.
 ```{r}
 men_proportion <- 100 * dataset_tab[1] / (dataset_tab[1] + dataset_tab[3])
 women_proportion <- 100 * dataset_tab[2] / (dataset_tab[2] + dataset_tab[4])
@@ -88,7 +88,7 @@ tabs <- data.frame(sex=labels,
                       properion=proportions)
 tabs
 ```
-Unemployment proportion in this sample among the men is 38.72% while among the women is roughly 37.23%.
+The unemployment proportion in this sample among the men is 38.72% while among the women is roughly 37.23%.
 
 ```{r}
 dataset <- droplevels(dataset)
@@ -96,15 +96,15 @@ dataset <- droplevels(dataset)
 mosaicplot(prop.table(table(dataset),1), main = 'Sex vs Unemployment up to one month')
 ```
 
-In the next part we will use statistical inference about proportion of male and female respondents
-to find out the equality of unemployment in the whole population.
+In the next part, we will use statistical inference about the proportion of male and female respondents
+to find out the equality of unemployment in the entire population.
 
 * * *
 
 ## Part 4: Inference
 
 ### Hypothesis
-The null hypothesis for our question is,"There is no differences between men and women unemployed proportion, up to one month between the year 2000 to 2010".
+The null hypothesis for our question is "There are no differences between men and women unemployed proportion, up to one month between the year 2000 to 2010".
 
 The alternative hypothesis is, "A larger proportion of men than women have been unemployed up to one month from the year 2000 to 2010".
 
@@ -113,7 +113,7 @@ There are two conditions for comparing two proportions:
 
 1. Independence:
 
-    + within groups: the sample is randomly selected and the size of sample is definitly less than 10% of whole populaton.
+    + within groups: the sample is randomly selected and the size of the sample is definitely less than 10% of the total population.
 
     + between groups: as the data sample is random, men and women are independent of each other and non-paired.
     
@@ -123,20 +123,32 @@ There are two conditions for comparing two proportions:
     
     + Women: successes: 290 > 10 and failures: 489 >10 
     
-We can assume that the sampling distribution of the difference between two propotroin is nearly normal.
+We can assume that the sampling distribution of the difference between two proportions is nearly normal.
 
 ### Methods
 
-We’ll examine the difference in proportions of men and women unemployment proportion by:
+We’ll examine the difference in proportions of men and women's unemployment proportion by:
 
-Calculating the p-value for the hypotheses that a higher proportion of unemployed men, given our sample. Then deciding if the p-value is small or large enough to reject, or not reject the null hypotheses.
+1. Calculating the p-value for the hypotheses that a higher proportion of unemployed men, given our sample. Then deciding if the p-value is small or large enough to reject, or fail to reject, the null hypothesis.
 
-Checking a 95% confidence interval for the difference in the proportions, and seeing if it contains 0 i.e. there is no difference.
+2. Checking a 95% confidence interval for the difference in the proportions and seeing if it contains 0, i.e. there is no difference.
 
 ### P-value
-Following code will calculate the p-value for our test:
+The following code will calculate the p-value for our test:
 ```{r}
 inference(data = dataset, x=sex, y=unemp, statistic = "proportion", type = "ht",
           method = "theoretical", null = 0, alternative = "greater", success = "Yes")
 ```
 
+### Interpretation
+As we can see the p-value is more than 0.05 which is our alpha for this inference.
+Since this is a high probability we fail to reject the null hypothesis, The data do not provide convincing evidence
+that the proportion of unemployed men and unemployed women, up to one month looking for a job, between 2000 and 2010 are different.
+
+### Confidence Interval
+We can construct a confidence interval for the difference of two proportions to make sure it would accept the hypothesis test.
+```{r}
+inference(x= sex,y = unemp, data = dataset, statistic = "proportion", type = "ci",method = "theoretical", success = "Yes")
+```
+
+The 95% confidence interval for the difference between the proportions of males and females unemployed up to one month between 2000 and2010. The confidence interval is between -0.0369 and 0.0668, as we can see this interval captures the zero value that is related to the null hypothesis, Hence the results for both tests agree, The data do not provide convincing evidence that the proportions of unemployed males and females who are was unemployed up to one month were different between 2000 and 2010.
